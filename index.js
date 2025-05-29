@@ -1,14 +1,10 @@
-// app.js
-const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
+const axios = require("axios");
+const cheerio = require("cheerio");
 const app = express();
 
-// Set up EJS for templating
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-// Import scraper function
 const { scrapeTheVerge } = require('./scraper.js');
 
 app.get('/', async (req, res) => {
