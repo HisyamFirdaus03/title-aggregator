@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Import scraper function
-const { scrapeTheVerge } = require('./scraper.cjs');
+const { scrapeTheVerge } = require('./scraper.js');
 
 app.get('/', async (req, res) => {
     try {
