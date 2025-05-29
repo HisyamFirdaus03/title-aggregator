@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,15 @@
             font-weight: 600;
         }
 
+        .stats {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
         .article {
             background: white;
             margin-bottom: 16px;
@@ -29,6 +39,11 @@
             border-radius: 8px;
             border: 1px solid #eee;
             transition: all 0.2s ease;
+        }
+
+        .article:hover {
+            border-color: #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .article-title {
@@ -40,27 +55,117 @@
             margin-bottom: 8px;
         }
 
+        .article-title:hover {
+            color: #0066cc;
+        }
+
         .article-date {
             color: #666;
             font-size: 14px;
             margin: 0;
+        }
+
+        .pagination {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .page-btn {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 4px;
+            background: #f0f0f0;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover {
+            background: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .page-btn.show-all {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+            margin-left: 10px;
+        }
+
+        .page-btn.show-all:hover {
+            background: #218838;
+            border-color: #218838;
+        }
+
+        .page-info {
+            margin: 0 10px;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
     <h1>Articles from The Verge</h1>
     
-    <% articles.forEach(article => { %>
+    <div class="stats">
+        Total Articles: <%= totalArticles %> | 
+        Page <%= currentPage %> of <%= totalPages %> | 
+        Showing <%= articles.length %> articles
+    </div>
+    
+    <div class="pagination">
+        <% if (currentPage > 1) { %>
+            <a href="?page=1&limit=<%= limit %>" class="page-btn">First</a>
+            <a href="?page=<%= currentPage - 1 %>&limit=<%= limit %>" class="page-btn">Previous</a>
+        <% } %>
+        
+        <span class="page-info">Page <%= currentPage %> of <%= totalPages %></span>
+        
+        <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>&limit=<%= limit %>" class="page-btn">Next</a>
+            <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="page-btn">Last</a>
+        <% } %>
+        
+        <a href="?page=1&limit=<%= totalArticles %>" class="page-btn show-all">Show All <%= totalArticles %></a>
+    </div>
+
+    <% articles.forEach((article, index) => { %>
         <div class="article">
             <a href="https://www.theverge.com<%= article.link %>" target="_blank" class="article-title">
                 <%= article.title %>
             </a>
-            <p class="article-date"><%= new Date(article.date).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            }) %></p>
+            <p class="article-date">
+                <%= new Date(article.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) %>
+            </p>
         </div>
     <% }) %>
+    
+    <div class="pagination">
+        <% if (currentPage > 1) { %>
+            <a href="?page=1&limit=<%= limit %>" class="page-btn">First</a>
+            <a href="?page=<%= currentPage - 1 %>&limit=<%= limit %>" class="page-btn">Previous</a>
+        <% } %>
+        
+        <span class="page-info">Page <%= currentPage %> of <%= totalPages %></span>
+        
+        <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>&limit=<%= limit %>" class="page-btn">Next</a>
+            <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="page-btn">Last</a>
+        <% } %>
+        
+        <a href="?page=1&limit=<%= totalArticles %>" class="page-btn show-all">Show All <%= totalArticles %></a>
+    </div>
 </body>
 </html>
