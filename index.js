@@ -1,19 +1,16 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
+import { scrapeTheVerge } from "./scraper.js";
+import express from "express";
 const app = express();
 
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-
-const { scrapeTheVerge } = require('./scraper.js');
-
-app.get('/', async (req, res) => {
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.get("/", async (req, res) => {
     try {
         const articles = await scrapeTheVerge();
-        res.render('index', { articles });
+        res.render("index", { articles });
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).send('Error fetching articles');
+        console.error("Error:", error);
+        res.status(500).send("Error fetching articles");
     }
 });
 
